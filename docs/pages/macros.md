@@ -2,9 +2,52 @@
 
 ## 系统宏
 
-| 宏名 | 说明 |
-| --- | --- |
+|宏名|说明|
+|---|---|
+|WIN32|包含windows.h头文件即定义，不区分操作系统是x86还是x64|
+|\_WIN32|VS编译器定义，不区分操作系统是x86还是x64|
+|\_WIN64|VS编译器定义，x64平台|
+|\_\_x86_64\_\_|Unix平台，x86平台|
+|\_\_i386\_\_|Unix平台，x64平台|
+|\_\_amd64、\_\_amd64\_\_|amd平台|
+|||
 
+进行平台区分的范例代码：  
+```c++
+// windows平台
+#ifdef _WIN32
+    #ifdef _WIN64
+        // x64平台
+    #else
+        // x86平台
+    #endif
+#elif __APPLE__
+    #include "TargetConditionals.h"
+    #if TARGET_IPHONE_SIMULATOR
+         // iOS Simulator
+    #elif TARGET_OS_IPHONE
+        // iOS device
+    #elif TARGET_OS_MAC
+        // Other kinds of Mac OS
+    #else
+        #error "Unknown Apple platform"
+    #endif
+#elif __ANDROID__
+    // 安卓平台
+#elif __MINGW32__
+    // mingw32平台
+#elif __MINGW64__
+    // mingw64平台
+#elif __CYGWIN__
+    // cygwin平台
+#elif __linux__
+    // linux平台
+#elif __unix__
+    // unix平台
+#else
+    // 未知平台
+#endif
+```
 
 ## 编译器宏
 
